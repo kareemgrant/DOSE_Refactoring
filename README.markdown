@@ -86,7 +86,7 @@ Since, I'm a several weeks older and wiser since writing this code, it's high ti
 
 The first thing that jumps out at me is that there is way too much logic being forced into the create method. First, I check if you're a current user, then I check if you have a valid credit card on file. Only after all of that, do I get to the real job of the create method - which is to create a new bid. 
 
-While, I feel that those checks need to happen and that the create method is the place in the code where they should occur, there's definitely a better way to organize the code to make it readable and ameanable to change. 
+While, I feel that those checks need to happen and that the create method is the place in the code where they should occur, there's definitely a better way to organize the code to make it readable and amenable to change. 
 
 ##### Embedded If-Statements suck!
 
@@ -94,7 +94,7 @@ Embedded If-statements used to be my best friend, but we had a falling out since
 
 The `if current_user` checks if the person submitting the bid is actually logged in. It meets our client's requirement, but sticking all of the logic associated with the user not being logged-in seems out of place. 
 
-I've learned that sometimes it's best to ask yourself a simple question - "what is really happending here?"  Well, what we're really doing is making sure we prevent bidders who are not currently logged-in from submitting a bid. The next question I ask myself is "does that logic or idea belong in the create method?"  It's clear that the answer is no, so let's move it out into it's own method:
+I've learned that sometimes it's best to ask yourself a simple question - "what is really happening here?"  Well, what we're really doing is making sure we prevent bidders who are not currently logged-in from submitting a bid. The next question I ask myself is "does that logic or idea belong in the create method?"  It's clear that the answer is no, so let's move it out into it's own method:
 
 ```
   def no_bid_allowed
@@ -259,19 +259,3 @@ end
 ```
 
 There you have it. I'm sure the code still has a lot of room for improvement, but it's definitely a step up from my original implementation. 
-
-
-
- 
-
-
-
-
-
-
- 
-
-
-
-
-
