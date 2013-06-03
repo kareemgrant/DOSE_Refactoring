@@ -78,6 +78,7 @@ end
 
 I'll be the first to admit, this isn't pretty. There's way too much going on in the create method. This totally ignores the Single Responsibility Principle and breaks plenty of other rules. To be fair, I knew it was pretty bad when I wrote it, but we were under some time constraints and I felt shipping well-tested ugly code was much better than not shipping at all.
 
+ 
 ##### It's Refactor Time!
 
 Since, I'm several weeks older and wiser since writing this code, it's high time that I make this controller look presentable. 
@@ -90,10 +91,10 @@ While I feel that these checks need to happen and that the create method is the 
 
 Nested If-statements used to be my best friend, but we had a falling out since I started gSchool. Let's get rid of them.
 
+
 The `if current_user` line checks if the person submitting the bid is actually logged in. It meets our client's requirement, but sticking all of the logic associated with the user not being logged in seems out of place.
 
 I've learned that sometimes it's best to ask yourself a simple question - "what is really happening here?"  Well, what we're really doing is making sure we prevent bidders who are not currently logged in from submitting a bid. The next question I ask myself is "does that logic or idea belong in the create method?"  It's clear that the answer is no, so let's move it out into it's own method:
-
 
 ```ruby
   def no_bid_allowed
@@ -102,7 +103,6 @@ I've learned that sometimes it's best to ask yourself a simple question - "what 
     redirect_to login_path
     return
   end
-
 ```
 
 Here my goal is to provide a verbose method name so the purpose of this method is crystal clear. 
@@ -113,10 +113,9 @@ Back in the create method, we add the following line to complete our check for a
 no_bid_allowed unless current_user
 ```
 
-With those two moves, we can now remove the outer if-statement:
+With those two moves, we can remove the outer `if` statement:
 
 ```ruby
-
   def create
     clear_bid_session_data
 
@@ -143,7 +142,9 @@ With those two moves, we can now remove the outer if-statement:
 
 That's a step in the right direction but there's still work to be done. Let's focus our attention on the code that checks for a valid credit card:
 
-`if current_user.valid_credit_card?`
+```ruby
+if current_user.valid_credit_card?
+```
 
 Once again, I think the create method is the place where this check should be made, however the associated logic that goes along with an invalid credit card belongs somewhere else. Let's move it out of there:
 
@@ -166,7 +167,7 @@ Once again, I think the create method is the place where this check should be ma
 
 Here I extracted all of that misplaced logic and placed it into its own method with a name that makes the method's purpose obvious. 
 
-Back in the create method, I can now replace the obsolete if-statement with:
+Back in the create method, I can now replace the now obsolete `if` statement with:
 
 ```ruby
 no_valid_credit_card_on_file unless current_user.valid_credit_card?
@@ -252,7 +253,5 @@ class BidsController < ApplicationController
   end
 
 end
-
 ```
-
 There you have it. I'm sure the code still has a lot of room for improvement, but it's definitely a step up from my original implementation. 
