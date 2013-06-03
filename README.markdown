@@ -77,7 +77,7 @@ end
 
 ##### What was I thinking?
 
-I'll be the first to admit, this isn't pretty. There's way too much going on in the create method. This totally ignores the Single Responsibility Principle and breaks plenty other rules. To be fair, I knew it was pretty bad when I wrote it, but we were under some time constraints and I felt shipping well-tested ugly code was much better than not shipping at all.
+I'll be the first to admit, this isn't pretty. There's way too much going on in the create method. This totally ignores the Single Responsibility Principle and breaks plenty of other rules. To be fair, I knew it was pretty bad when I wrote it, but we were under some time constraints and I felt shipping well-tested ugly code was much better than not shipping at all.
  
 
 ##### It's Refactor Time!
@@ -142,7 +142,7 @@ With those two moves, we can remove the outer if statement:
   end
 ```
 
-That's a step in the right direction, but we're not done. Let's focus our attention on the check for a valid credit card:
+That's a step in the right direction, but there's still work to be done. Let's focus our attention on the check for a valid credit card:
 
 `if current_user.valid_credit_card?`
 
@@ -166,15 +166,15 @@ Again, this check needs to be made and but does all of the associated logic that
   end
 ```
 
-Again, we extract out all of that misplaced logic and place it into its own method with a name that makes the method's purpose obvious. 
+Here I did extract out all of that misplaced logic and place it into its own method with a name that makes the method's purpose obvious. 
 
-Back in the create method, I replace the if-else statement with:
+Back in the create method, I can now replace the if-else statement with:
 
 ```
 no_valid_credit_card_on_file unless current_user.valid_credit_card?
 ```
 
-With that move, we can now remove the other if-statement, which leaves our create doing the one job it's great at - creating a bid:
+With that move, I'm able to remove the other if-statement, which leaves our create doing the one job it's great at - creating a bid:
 
 ```
   def create
