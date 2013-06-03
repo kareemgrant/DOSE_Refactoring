@@ -173,7 +173,7 @@ Back in the create method, I can now replace the now obsolete `if` statement wit
 no_valid_credit_card_on_file unless current_user.valid_credit_card?
 ```
 
-With that move, I'm able to remove the other if-statement, which leaves our create method doing the one job it's great at - creating a bid:
+With the two troublesome 'if' statements now gone, we're are left with a create method that does one thing and one thing well - create a bid:
 
 ```ruby
   def create
