@@ -170,7 +170,7 @@ Back in the create method, I can now replace the if-statement with:
 no_valid_credit_card_on_file unless current_user.valid_credit_card?
 ```
 
-With that move, I'm able to remove the other if-statement, which leaves our create doing the one job it's great at - creating a bid:
+With that move, I'm able to remove the other if-statement, which leaves our create method doing the one job it's great at - creating a bid:
 
 ```
   def create
